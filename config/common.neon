@@ -1,0 +1,24 @@
+parameters:
+	siteName: Nette Webauthn
+
+application:
+	errorPresenter: Error
+	mapping:
+		*: App\*Module\Presenters\*Presenter
+
+di:
+	export:
+		parameters: no
+		tags: no
+
+session:
+	debugger: true
+	expiration: 14 days
+
+
+services:
+	router: App\Router\RouterFactory::createRouter
+
+	HomepagePresenter:
+		class: App\Presenters\HomepagePresenter
+		arguments: [%siteName%]

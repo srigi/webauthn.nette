@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  app:
+    image: srigi/webauth-nette/app
+    build:
+      context: .
+      args:
+        IS_PROD_BUILD: 0
+    env_file:
+      - .env
+    volumes:
+      - ./.docker/php-dev.ini:/usr/local/etc/php/php.ini:ro
+      - ./config:/app/config
+      - ./logs:/app/logs
+      - ./src:/app/src
+      - ./temp:/app/temp
+      - ./www:/app/www
+
+  webserver:
+    image: srigi/webauth-nette/webserver
+    build:
+      context: .
+      dockerfile: Dockerfile.webserver
+      args:
+        CONFIG: 'nginx.dev-ssl.conf'
+        STATIC_FILES_IMAGE: srigi/webauth-nette/app
+    env_file:
+      - .env
+    environment:
+      BACKEND_SERVICE: app:9000
+      FCGI_READ_TIMEOUT: 3600s
+    ports:
+      - 8000:8000

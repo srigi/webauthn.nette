@@ -1,0 +1,33 @@
+ARG STATIC_FILES_IMAGE
+FROM ${STATIC_FILES_IMAGE} as STATIC_FILES
+FROM nginx:1.18-alpine
+
+RUN apk add --update --no-cache \
+		bash \
+	&& mkdir -p \
+		/var/cache/nginx \
+		/var/run/nginx \
+	&& chown nginx:nginx \
+		/var/cache/nginx \
+		/var/run/nginx \
+	&& chmod ug+w \
+		/var/cache/nginx \
+		/var/run/nginx
+COPY ./.docker/bin/wait-for-it /usr/local/bin/
+
+WORKDIR /app
+ARG CONFIG=nginx.conf
+COPY ./.docker/webserver/frontcontroller.template.nginx ./frontcontroller.template.conf
+COPY ./.docker/webserver/maps.template.nginx ./maps.template.conf
+COPY ./.docker/webserver/$CONFIG ./nginx.template.conf
+COPY ./.docker/webserver/webserver-foreground.sh ./
+COPY ./.docker/ssl/ ./ssl
+
+COPY --from=STATIC_FILES /app/www/ ./www
+RUN chown -R nginx:nginx \
+		/app
+
+USER nginx
+
+ENV FCGI_READ_TIMEOUT=60s
+CMD ["./webserver-foreground.sh"]

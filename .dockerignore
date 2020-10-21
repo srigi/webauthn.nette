@@ -1,0 +1,9 @@
+.data
+.idea
+.kubernetes
+.kubernetes.develop
+bin/.phpunit
+my_resources
+public/bundles
+var
+vendor

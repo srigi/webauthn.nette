@@ -1,0 +1,4 @@
+map $http_x_healthcheck_token $healthcheck_token_ok {
+    default 0;
+    "$HEALTHCHECK_TOKEN" 'TRUE';
+}

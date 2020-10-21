@@ -1,0 +1,28 @@
+{
+    "name": "srigi/webauth.nette",
+    "description": "Example project demonstrating Webauthn",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
+    "require": {
+        "php": ">= 7.4",
+        "nette/application": "^3.0",
+        "nette/bootstrap": "^3.0",
+        "nette/di": "^3.0",
+        "latte/latte": "^2.5",
+        "tracy/tracy": "^2.6"
+    },
+    "require-dev": {
+        "nette/tester": "^2.0"
+    }
+}

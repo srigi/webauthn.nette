@@ -1,0 +1,4 @@
+APP_DEBUG=1
+HEALTHCHECK_TOKEN=secret
+TIMEZONE=Europe/Prague
+PHP_IDE_CONFIG=serverName=localhost

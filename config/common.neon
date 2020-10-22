@@ -17,8 +17,6 @@ session:
 
 
 services:
-	router: App\Router\RouterFactory::createRouter
+	- App\Presenters\HomepagePresenter(%siteName%)
 
-	HomepagePresenter:
-		class: App\Presenters\HomepagePresenter
-		arguments: [%siteName%]
+	router: App\Router\RouterFactory::createRouter

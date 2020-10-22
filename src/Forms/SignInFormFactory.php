@@ -11,11 +11,11 @@ final class SignInFormFactory
 {
 	use SmartObject;
 
-	private Webauthn\Authenticator $authenticator;
+	private Webauthn\FirstFactorAuthenticator $authenticator;
 
 	private Security\User $user;
 
-	public function __construct(Webauthn\Authenticator $authenticator, Security\User $user)
+	public function __construct(Webauthn\FirstFactorAuthenticator $authenticator, Security\User $user)
 	{
 		$this->authenticator = $authenticator;
 		$this->user = $user;

@@ -7,7 +7,7 @@ use Nette\Database;
 use Nette\Security;
 use Nette\SmartObject;
 
-class Authenticator implements Security\IAuthenticator
+class FirstFactorAuthenticator implements Security\IAuthenticator
 {
 	use SmartObject;
 
@@ -69,7 +69,7 @@ class Authenticator implements Security\IAuthenticator
 				'username' => $row[self::COLUMN_USERS_USERNAME],
 			]);
 		} else {
-			$this->presenter->forward('Sign:webauthnIn', [
+			$this->presenter->forward('Webauthn:assertion', [
 				'id' => $row[self::COLUMN_USERS_ID],
 				'username' => $row[self::COLUMN_USERS_USERNAME],
 				'hwCredentialId' => $userHwCredentials[self::COLUMN_HW_CREDENTIALS_CREDENTIAL_ID],

@@ -41,7 +41,7 @@ session:
 
 services:
 	- App\Lib\SiteName(%siteName%)
-	- App\Lib\Webauthn\Authenticator
+	- App\Lib\Webauthn\FirstFactorAuthenticator
 	- App\Lib\Webauthn\CredentialSourceRepository
 	- App\Lib\Webauthn\PublicKeyCredentialCreationOptionsFactory(%webauthn_creation_profiles%)
 

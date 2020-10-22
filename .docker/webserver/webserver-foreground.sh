@@ -6,4 +6,5 @@ envsubst '\$BACKEND_SERVICE \$FCGI_READ_TIMEOUT' < ./frontcontroller.template.co
 envsubst '\$HEALTHCHECK_TOKEN' < ./maps.template.conf > ./maps.conf
 cat ./nginx.template.conf > ./nginx.conf
 
+wait-for-it $BACKEND_SERVICE
 exec nginx -c /app/nginx.conf -g 'daemon off;'

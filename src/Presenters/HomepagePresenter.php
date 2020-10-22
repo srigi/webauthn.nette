@@ -2,10 +2,13 @@
 
 namespace App\Presenters;
 
-use Nette;
+use Nette\Application\UI;
+use Nette\SmartObject;
 
-final class HomepagePresenter extends Nette\Application\UI\Presenter
+final class HomepagePresenter extends UI\Presenter
 {
+	use SmartObject;
+
 	private string $siteName;
 
 	public function __construct(string $siteName)

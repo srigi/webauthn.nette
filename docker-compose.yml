@@ -32,4 +32,4 @@ services:
       BACKEND_SERVICE: app:9000
       FCGI_READ_TIMEOUT: 3600s
     ports:
-      - 8000:8000
+      - 127.0.0.1:${HOST_APP_PORT}:8000

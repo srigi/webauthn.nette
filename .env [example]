@@ -1,4 +1,5 @@
 APP_DEBUG=1
 HEALTHCHECK_TOKEN=secret
+HOST_APP_PORT=8000
 TIMEZONE=Europe/Prague
 PHP_IDE_CONFIG=serverName=nette-webauthn.local

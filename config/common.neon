@@ -1,10 +1,33 @@
 parameters:
 	siteName: Nette Webauthn
 
+	rpId: 'webauth-nette.srigi.test'
+
+	webauthn_creation_profiles:
+		default:                                # Unique name of the profile
+			rp:
+				name: %siteName%
+				id: %rpId%
+				icon: null
+			challenge_length: 32                # (in bytes)
+			attestation_conveyance: Webauthn\PublicKeyCredentialCreationOptions::ATTESTATION_CONVEYANCE_PREFERENCE_NONE
+			authenticator_selection_criteria:   # Optional. See https://www.w3.org/TR/webauthn/#authenticatorSelection
+				attachment_mode: Webauthn\AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_CROSS_PLATFORM
+				require_resident_key: true
+				user_verification: Webauthn\AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_PREFERRED
+			public_key_credential_parameters:
+				- Cose\Algorithms::COSE_ALGORITHM_ES256
+				- Cose\Algorithms::COSE_ALGORITHM_RS256
+			extensions: []
+			timeout: 60000                      # (in milliseconds)
+
 application:
 	errorPresenter: Error
 	mapping:
 		*: App\*Module\Presenters\*Presenter
+
+database:
+	dsn: 'sqlite:/app/.data/main.sqlite3'
 
 di:
 	export:
@@ -18,7 +41,22 @@ session:
 
 services:
 	- App\Lib\SiteName(%siteName%)
-	- App\Lib\Authenticator
+	- App\Lib\Webauthn\Authenticator
+	- App\Lib\Webauthn\CredentialSourceRepository
+	- App\Lib\Webauthn\PublicKeyCredentialCreationOptionsFactory(%webauthn_creation_profiles%)
+
+	- Nyholm\Psr7\Factory\Psr17Factory
+	- Webauthn\AttestationStatement\AttestationObjectLoader
+	- Webauthn\AuthenticationExtensions\ExtensionOutputCheckerHandler
+	- Webauthn\AuthenticatorAttestationResponseValidator
+	- Webauthn\PublicKeyCredentialLoader
+	- Webauthn\TokenBinding\IgnoreTokenBindingHandler
+
+	webauthnNoneAttestationStatementSupport: Webauthn\AttestationStatement\NoneAttestationStatementSupport
+	webatuhnAttestationStatementSupportManager:
+		class: Webauthn\AttestationStatement\AttestationStatementSupportManager
+		setup:
+			- add(@webauthnNoneAttestationStatementSupport)
 
 	signinFormFactory:
 		class: App\Forms\SignInFormFactory

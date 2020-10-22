@@ -10,6 +10,7 @@ services:
     env_file:
       - .env
     volumes:
+      - ./.data:/app/.data
       - ./.docker/php-dev.ini:/usr/local/etc/php/php.ini:ro
       - ./config:/app/config
       - ./logs:/app/logs

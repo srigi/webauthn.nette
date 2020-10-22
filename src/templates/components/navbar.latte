@@ -6,8 +6,8 @@
     <div>
       <ul class="nav navbar-nav navbar-right">
         {if $user->isLoggedIn()}
-          <li class="navbar-text">
-            {$user->getIdentity()->getData()['username']}
+          <li n:class="$presenter->isLinkCurrent('Profile:') ? active">
+              <a href="{plink Profile:}">{$user->getIdentity()->getData()['username']}</a>
           </li>
           <li>
             <a href="{plink Sign:out}">Sign-out</a>

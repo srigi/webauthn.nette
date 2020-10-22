@@ -2,6 +2,7 @@
 
 namespace App\Forms;
 
+use App\Lib\Webauthn;
 use Nette\Application\UI;
 use Nette\Security;
 use Nette\SmartObject;
@@ -10,14 +11,17 @@ final class SignInFormFactory
 {
 	use SmartObject;
 
+	private Webauthn\Authenticator $authenticator;
+
 	private Security\User $user;
 
-	public function __construct(Security\User $user)
+	public function __construct(Webauthn\Authenticator $authenticator, Security\User $user)
 	{
+		$this->authenticator = $authenticator;
 		$this->user = $user;
 	}
 
-	public function create(callable $onSuccess): UI\Form
+	public function create(UI\Presenter $presenter, $onSuccess): UI\Form
 	{
 		$form = new UI\Form();
 		$form->addText('username', 'Username:')
@@ -30,7 +34,9 @@ final class SignInFormFactory
 
 		$form->addSubmit('send', 'Sign in');
 
-		$form->onSuccess[] = function(UI\Form $form, \stdClass $values) use ($onSuccess): void {
+		$form->onSuccess[] = function(UI\Form $form, \stdClass $values) use ($presenter, $onSuccess): void {
+			$this->authenticator->setPresenter($presenter);
+
 			try {
 				$this->user->setExpiration($values->remember ? '14 days' : null);
 				$this->user->login($values->username, $values->password);

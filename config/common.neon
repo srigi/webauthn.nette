@@ -18,5 +18,9 @@ session:
 
 services:
 	- App\Presenters\HomepagePresenter(%siteName%)
+	- App\Presenters\SignPresenter(@signinFormFactory, %siteName%)
+
+	signinFormFactory:
+		class: App\Forms\SignInFormFactory
 
 	router: App\Router\RouterFactory::createRouter

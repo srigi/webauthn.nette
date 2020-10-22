@@ -29,7 +29,7 @@ final class ProfilePresenter extends BasePresenter
 	{
 		$myHwCredentials = $this->database->table(self::TABLE_HW_CREDENTIALS)
 			->where('user_id', $this->getUser()->getId())
-			->fetch();
+			->fetchAll();
 
 		$this->template->myHwCredentials = $myHwCredentials;
 	}

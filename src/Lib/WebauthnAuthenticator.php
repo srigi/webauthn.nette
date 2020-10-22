@@ -2,8 +2,8 @@
 
 namespace App\Lib;
 
-use Nette\Application;
 use Nette\Application\UI;
+use Nette\Database;
 use Nette\Security;
 use Nette\SmartObject;
 
@@ -11,18 +11,21 @@ class WebauthnAuthenticator implements Security\IAuthenticator
 {
 	use SmartObject;
 
-	// TODO implement real users database
-	static private array $registeredUsers = [
-		'alice@example.com' => '$2y$10$zoVe6qqXL8TvkqzuDjLyM.TmBNilL0aVLRxjchjzR1SWfgUGQrqsa', // password: secret
-		'bob@example.com' => '$2y$10$xNtPDEcCk7LIqWuxRjT7hOM4y0HcnArCUrSMX0gz1AJ9kfHLyaPL.', // password: secret
-	];
+	private const
+		TABLE_NAME = 'users',
+		COLUMN_ID = 'id',
+		COLUMN_USERNAME = 'username',
+		COLUMN_PASSWORD = 'password';
+
+	private Database\Context $database;
 
 	private Security\Passwords $passwords;
 
 	private UI\Presenter $presenter;
 
-	public function __construct(Security\Passwords $passwords)
+	public function __construct(Database\Context $database, Security\Passwords $passwords)
 	{
+		$this->database = $database;
 		$this->passwords = $passwords;
 	}
 
@@ -34,15 +37,27 @@ class WebauthnAuthenticator implements Security\IAuthenticator
 	public function authenticate(array $credentials): Security\IIdentity
 	{
 		[$username, $password] = $credentials;
+		$row = $this->database->table(self::TABLE_NAME)
+			->where(self::COLUMN_USERNAME, $username)
+			->fetch();
 
-		if (!in_array($username, array_keys(self::$registeredUsers))) {
-			throw new Security\AuthenticationException('User not found!');
+		if (!$row) {
+			throw new Security\AuthenticationException('User not found!', self::IDENTITY_NOT_FOUND);
 		}
 
-		if (!$this->passwords->verify($password, self::$registeredUsers[$username])) {
-			throw new Security\AuthenticationException('Invalid password.');
+		if (!$this->passwords->verify($password, $row[self::COLUMN_PASSWORD])) {
+			throw new Security\AuthenticationException('Incorrect password!', self::INVALID_CREDENTIAL);
 		}
 
-		$this->presenter->forward('Sign:webauthnIn', ['username' => $username]);
+		if ($this->passwords->needsRehash($row[self::COLUMN_PASSWORD])) {
+			$row->update([
+				self::COLUMN_PASSWORD => $this->passwords->hash($password),
+			]);
+		}
+
+		$this->presenter->forward('Sign:webauthnIn', [
+			'id' => $row[self::COLUMN_ID],
+			'username' => $row[self::COLUMN_USERNAME],
+		]);
 	}
 }

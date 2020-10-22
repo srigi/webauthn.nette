@@ -24,10 +24,11 @@ class SignPresenter extends BasePresenter
 	public function actionWebauthnIn(): void
 	{
 		$params = $this->getParameters();
-		if (!isset($params['username'])) {
+		if (!isset($params['id']) || !isset($params['username'])) {
 			throw new BadRequestException();
 		}
 
+		$this->template->id = $params['id'];
 		$this->template->username = $params['username'];
 	}
 

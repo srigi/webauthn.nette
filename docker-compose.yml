@@ -2,7 +2,7 @@ version: '3'
 
 services:
   app:
-    image: srigi/webauth-nette/app
+    image: srigi/webauthn-nette/app
     build:
       context: .
       args:
@@ -19,13 +19,13 @@ services:
       - ./www:/app/www
 
   webserver:
-    image: srigi/webauth-nette/webserver
+    image: srigi/webauthn-nette/webserver
     build:
       context: .
       dockerfile: Dockerfile.webserver
       args:
         CONFIG: 'nginx.dev-ssl.conf'
-        STATIC_FILES_IMAGE: srigi/webauth-nette/app
+        STATIC_FILES_IMAGE: srigi/webauthn-nette/app
     env_file:
       - .env
     environment:

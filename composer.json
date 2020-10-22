@@ -1,5 +1,5 @@
 {
-    "name": "srigi/webauth.nette",
+    "name": "srigi/webauthn.nette",
     "description": "Example project demonstrating Webauthn",
     "type": "project",
     "license": "MIT",

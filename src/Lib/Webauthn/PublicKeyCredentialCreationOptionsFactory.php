@@ -17,11 +17,9 @@ class PublicKeyCredentialCreationOptionsFactory
 {
 	use SmartObject;
 
+	/** @var array<string, mixed> */
 	private array $profiles;
 
-	/**
-	 * @param array<string, mixed> $profiles
-	 */
 	public function __construct(array $profiles)
 	{
 		$this->profiles = $profiles;

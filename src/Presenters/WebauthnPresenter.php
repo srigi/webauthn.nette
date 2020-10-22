@@ -105,7 +105,7 @@ class WebauthnPresenter extends BasePresenter
 		try {
 			$publicKeyCredentialSource = $this->attestationResponseValidator->check($response, $publicKeyCredentialCreationOptions, $psr7Request);
 		} catch (\Throwable $throwable) {
-			throw new BadRequestException('Invalid assertion', Response::S422_UNPROCESSABLE_ENTITY, $throwable);
+			throw new BadRequestException('Invalid attestation', Response::S422_UNPROCESSABLE_ENTITY, $throwable);
 		}
 
 		$this->credentialSourceRepository->saveCredentialSource(new PublicKeyCredentialSource(

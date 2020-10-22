@@ -3,7 +3,6 @@
 namespace App\Presenters;
 
 use App\Forms;
-use Nette\Application\BadRequestException;
 use Nette\Application\UI;
 use Nette\SmartObject;
 
@@ -19,16 +18,6 @@ class SignPresenter extends BasePresenter
 	public function __construct(Forms\SignInFormFactory $signInFactory)
 	{
 		$this->signInFactory = $signInFactory;
-	}
-
-	public function actionWebauthnIn(): void
-	{
-		$params = $this->getParameters();
-		if (!isset($params['id']) || !isset($params['username'])) {
-			throw new BadRequestException();
-		}
-
-		$this->template->params = $params;
 	}
 
 	public function actionOut(): void

@@ -3,6 +3,7 @@
 namespace App\Presenters;
 
 use App\Lib;
+use App\Components;
 use Nette\Application\UI;
 use Nette\SmartObject;
 
@@ -16,5 +17,10 @@ abstract class BasePresenter extends UI\Presenter
 	public function beforeRender()
 	{
 		$this->template->siteName = $this->siteName->getSiteName();
+	}
+
+	public function createComponentNavbar(): UI\Control
+	{
+		return new Components\Navbar($this->siteName);
 	}
 }

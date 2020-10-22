@@ -1,0 +1,23 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a href="{plink Homepage:}" class="navbar-brand">{$siteName}</a>
+    </div>
+    <div>
+      <ul class="nav navbar-nav navbar-right">
+        {if $user->isLoggedIn()}
+          <li class="navbar-text">
+            {$user->getIdentity()->getData()['username']}
+          </li>
+          <li>
+            <a href="{plink Sign:out}">Sign-out</a>
+          </li>
+        {else}
+          <li n:class="$presenter->isLinkCurrent('Sign:in') ? active">
+            <a href="{plink Sign:in}">Sign-in</a>
+          </li>
+        {/if}
+      </ul>
+    </div>
+  </div>
+</nav>

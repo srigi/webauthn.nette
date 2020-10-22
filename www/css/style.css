@@ -1,0 +1,12 @@
+h1 {
+	color: #3484D2;
+}
+
+a[href^="#error:"] {
+	background: red;
+	color: white;
+}
+
+form .required label {
+	font-weight: bold;
+}

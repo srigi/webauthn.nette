@@ -17,8 +17,10 @@ session:
 
 
 services:
-	router: App\Router\RouterFactory::createRouter
+	- App\Lib\SiteName(%siteName%)
+	- App\Lib\Authenticator
 
-	HomepagePresenter:
-		class: App\Presenters\HomepagePresenter
-		arguments: [%siteName%]
+	signinFormFactory:
+		class: App\Forms\SignInFormFactory
+
+	router: App\Router\RouterFactory::createRouter

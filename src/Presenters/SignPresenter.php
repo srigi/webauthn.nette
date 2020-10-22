@@ -28,8 +28,7 @@ class SignPresenter extends BasePresenter
 			throw new BadRequestException();
 		}
 
-		$this->template->id = $params['id'];
-		$this->template->username = $params['username'];
+		$this->template->params = $params;
 	}
 
 	public function actionOut(): void

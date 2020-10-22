@@ -12,10 +12,15 @@ class WebauthnAuthenticator implements Security\IAuthenticator
 	use SmartObject;
 
 	private const
-		TABLE_NAME = 'users',
-		COLUMN_ID = 'id',
-		COLUMN_USERNAME = 'username',
-		COLUMN_PASSWORD = 'password';
+		TABLE_USERS = 'users',
+		COLUMN_USERS_ID = 'id',
+		COLUMN_USERS_USERNAME = 'username',
+		COLUMN_USERS_PASSWORD = 'password',
+
+		TABLE_HW_CREDENTIALS = 'hw_credentials',
+		COLUMN_HW_CREDENTIALS_ID = 'id',
+		COLUMN_HW_CREDENTIALS_USERS_ID = 'user_id',
+		COLUMN_HW_CREDENTIALS_CREDENTIAL_ID = 'public_key_credential_id';
 
 	private Database\Context $database;
 
@@ -37,27 +42,38 @@ class WebauthnAuthenticator implements Security\IAuthenticator
 	public function authenticate(array $credentials): Security\IIdentity
 	{
 		[$username, $password] = $credentials;
-		$row = $this->database->table(self::TABLE_NAME)
-			->where(self::COLUMN_USERNAME, $username)
+		$row = $this->database->table(self::TABLE_USERS)
+			->where(self::COLUMN_USERS_USERNAME, $username)
 			->fetch();
 
 		if (!$row) {
 			throw new Security\AuthenticationException('User not found!', self::IDENTITY_NOT_FOUND);
 		}
 
-		if (!$this->passwords->verify($password, $row[self::COLUMN_PASSWORD])) {
+		if (!$this->passwords->verify($password, $row[self::COLUMN_USERS_PASSWORD])) {
 			throw new Security\AuthenticationException('Incorrect password!', self::INVALID_CREDENTIAL);
 		}
 
-		if ($this->passwords->needsRehash($row[self::COLUMN_PASSWORD])) {
+		if ($this->passwords->needsRehash($row[self::COLUMN_USERS_PASSWORD])) {
 			$row->update([
-				self::COLUMN_PASSWORD => $this->passwords->hash($password),
+				self::COLUMN_USERS_PASSWORD => $this->passwords->hash($password),
 			]);
 		}
 
-		$this->presenter->forward('Sign:webauthnIn', [
-			'id' => $row[self::COLUMN_ID],
-			'username' => $row[self::COLUMN_USERNAME],
-		]);
+		$userHwCredentials = $this->database->table(self::TABLE_HW_CREDENTIALS)
+			->where(self::COLUMN_HW_CREDENTIALS_USERS_ID, $row[self::COLUMN_USERS_ID])
+			->fetch();
+
+		if (!$userHwCredentials) {
+			return new Security\Identity($row[self::COLUMN_USERS_ID], ['MEMBER'], [
+				'username' => $row[self::COLUMN_USERS_USERNAME],
+			]);
+		} else {
+			$this->presenter->forward('Sign:webauthnIn', [
+				'id' => $row[self::COLUMN_USERS_ID],
+				'username' => $row[self::COLUMN_USERS_USERNAME],
+				'hwCredentialId' => $userHwCredentials[self::COLUMN_HW_CREDENTIALS_CREDENTIAL_ID],
+			]);
+		}
 	}
 }

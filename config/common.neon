@@ -20,6 +20,13 @@ parameters:
 				- Cose\Algorithms::COSE_ALGORITHM_RS256
 			extensions: []
 			timeout: 60000                      # (in milliseconds)
+	webauthn_request_profiles:
+		default:
+			rp_id: %rpId%
+			challenge_length: 32
+			user_verification: Webauthn\AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_PREFERRED
+			extensions: []
+			timeout: 60000
 
 application:
 	errorPresenter: Error
@@ -41,16 +48,26 @@ session:
 
 services:
 	- App\Lib\SiteName(%siteName%)
+	- App\Lib\UserRepository
 	- App\Lib\Webauthn\FirstFactorAuthenticator
 	- App\Lib\Webauthn\CredentialSourceRepository
 	- App\Lib\Webauthn\PublicKeyCredentialCreationOptionsFactory(%webauthn_creation_profiles%)
-
+	- App\Lib\Webauthn\PublicKeyCredentialRequestOptionsFactory(%webauthn_request_profiles%)
 	- Nyholm\Psr7\Factory\Psr17Factory
 	- Webauthn\AttestationStatement\AttestationObjectLoader
 	- Webauthn\AuthenticationExtensions\ExtensionOutputCheckerHandler
+	- Webauthn\AuthenticatorAssertionResponseValidator
 	- Webauthn\AuthenticatorAttestationResponseValidator
 	- Webauthn\PublicKeyCredentialLoader
 	- Webauthn\TokenBinding\IgnoreTokenBindingHandler
+
+	coseAlgorithmSignatureES256: Cose\Algorithm\Signature\ECDSA\ES256
+	coseAlgorithmSignatureRS256: Cose\Algorithm\Signature\RSA\RS256
+	coseAlgorithmManager:
+		class: Cose\Algorithm\Manager
+		setup:
+			- add(@coseAlgorithmSignatureES256)
+			- add(@coseAlgorithmSignatureRS256)
 
 	webauthnNoneAttestationStatementSupport: Webauthn\AttestationStatement\NoneAttestationStatementSupport
 	webatuhnAttestationStatementSupportManager:

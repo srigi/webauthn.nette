@@ -1,0 +1,2 @@
+parameters:
+	rpId: 'nette-webauthn.local'

@@ -1,8 +1,6 @@
 parameters:
 	siteName: Nette Webauthn
 
-	rpId: 'webauth-nette.srigi.test'
-
 	webauthn_creation_profiles:
 		default:                                # Unique name of the profile
 			rp:
@@ -47,12 +45,14 @@ session:
 
 
 services:
+	- App\Forms\SignInFormFactory
 	- App\Lib\SiteName(%siteName%)
 	- App\Lib\UserRepository
 	- App\Lib\Webauthn\FirstFactorAuthenticator
 	- App\Lib\Webauthn\CredentialSourceRepository
 	- App\Lib\Webauthn\PublicKeyCredentialCreationOptionsFactory(%webauthn_creation_profiles%)
 	- App\Lib\Webauthn\PublicKeyCredentialRequestOptionsFactory(%webauthn_request_profiles%)
+
 	- Nyholm\Psr7\Factory\Psr17Factory
 	- Webauthn\AttestationStatement\AttestationObjectLoader
 	- Webauthn\AuthenticationExtensions\ExtensionOutputCheckerHandler
@@ -74,8 +74,5 @@ services:
 		class: Webauthn\AttestationStatement\AttestationStatementSupportManager
 		setup:
 			- add(@webauthnNoneAttestationStatementSupport)
-
-	signinFormFactory:
-		class: App\Forms\SignInFormFactory
 
 	router: App\Router\RouterFactory::createRouter

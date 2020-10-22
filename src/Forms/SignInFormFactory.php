@@ -2,7 +2,7 @@
 
 namespace App\Forms;
 
-use App\Lib\WebauthnAuthenticator;
+use App\Lib\Webauthn;
 use Nette\Application\UI;
 use Nette\Security;
 use Nette\SmartObject;
@@ -11,11 +11,11 @@ final class SignInFormFactory
 {
 	use SmartObject;
 
-	private WebauthnAuthenticator $authenticator;
+	private Webauthn\Authenticator $authenticator;
 
 	private Security\User $user;
 
-	public function __construct(WebauthnAuthenticator $authenticator, Security\User $user)
+	public function __construct(Webauthn\Authenticator $authenticator, Security\User $user)
 	{
 		$this->authenticator = $authenticator;
 		$this->user = $user;

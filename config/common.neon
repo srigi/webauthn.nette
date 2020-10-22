@@ -21,7 +21,7 @@ session:
 
 services:
 	- App\Lib\SiteName(%siteName%)
-	- App\Lib\WebauthnAuthenticator
+	- App\Lib\Webauthn\Authenticator
 
 	signinFormFactory:
 		class: App\Forms\SignInFormFactory

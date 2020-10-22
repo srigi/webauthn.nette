@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace App\Lib;
+namespace App\Lib\Webauthn;
 
 use Nette\Application\UI;
 use Nette\Database;
 use Nette\Security;
 use Nette\SmartObject;
 
-class WebauthnAuthenticator implements Security\IAuthenticator
+class Authenticator implements Security\IAuthenticator
 {
 	use SmartObject;
 

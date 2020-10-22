@@ -17,8 +17,7 @@ session:
 
 
 services:
-	- App\Presenters\HomepagePresenter(%siteName%)
-	- App\Presenters\SignPresenter(@signinFormFactory, %siteName%)
+	- App\Lib\SiteName(%siteName%)
 	- App\Lib\Authenticator
 
 	signinFormFactory:

@@ -6,7 +6,7 @@ use App\Forms;
 use Nette\Application\UI;
 use Nette\SmartObject;
 
-class SignPresenter extends UI\Presenter
+class SignPresenter extends BasePresenter
 {
 	use SmartObject;
 
@@ -15,17 +15,9 @@ class SignPresenter extends UI\Presenter
 
 	private Forms\SignInFormFactory $signInFactory;
 
-	private string $siteName;
-
-	public function __construct(Forms\SignInFormFactory $signInFactory, string $siteName)
+	public function __construct(Forms\SignInFormFactory $signInFactory)
 	{
 		$this->signInFactory = $signInFactory;
-		$this->siteName = $siteName;
-	}
-
-	public function beforeRender()
-	{
-		$this->template->siteName = $this->siteName;
 	}
 
 	public function actionOut(): void

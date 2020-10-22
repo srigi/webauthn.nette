@@ -30,15 +30,12 @@ final class SignInFormFactory
 		$form->addPassword('password', 'Password:')
 			->setRequired('Please enter your password.');
 
-		$form->addCheckbox('remember', 'Keep me signed in');
-
 		$form->addSubmit('send', 'Sign in');
 
 		$form->onSuccess[] = function(UI\Form $form, \stdClass $values) use ($presenter, $onSuccess): void {
 			$this->authenticator->setPresenter($presenter);
 
 			try {
-				$this->user->setExpiration($values->remember ? '14 days' : null);
 				$this->user->login($values->username, $values->password);
 			} catch (Security\AuthenticationException $e) {
 				$form->addError('The provided credentials are incorrect!');

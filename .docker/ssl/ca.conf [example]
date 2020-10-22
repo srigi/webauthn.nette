@@ -1,0 +1,24 @@
+[req]
+distinguished_name  = subject
+x509_extensions     = v3_ca
+string_mask         = utf8only
+
+[subject]
+countryName                 = Country Name (2 letter code)
+countryName_default         = CZ
+stateOrProvinceName         = State or Province Name (full name)
+stateOrProvinceName_default = Czechia
+localityName                = Locality Name (eg, city)
+localityName_default        = Brno
+organizationName            = Organization Name (eg, company)
+organizationName_default    = Srigi
+commonName                  = Common Name (e.g. server FQDN or YOUR name)
+commonName_default          = srigi.dev
+emailAddress                = Email Address
+emailAddress_default        = hello@srigi.dev
+
+[v3_ca]
+basicConstraints       = critical, CA:TRUE
+subjectKeyIdentifier   = hash
+authorityKeyIdentifier = keyid:always, issuer:always
+keyUsage               = critical, cRLSign, digitalSignature, keyCertSign

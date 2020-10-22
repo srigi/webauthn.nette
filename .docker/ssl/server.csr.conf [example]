@@ -1,0 +1,17 @@
+[req]
+distinguished_name  = subject
+string_mask         = utf8only
+
+[subject]
+countryName                 = Country Name (2 letter code)
+countryName_default         = CZ
+stateOrProvinceName         = State or Province Name (full name)
+stateOrProvinceName_default = Czechia
+localityName                = Locality Name (eg, city)
+localityName_default        = Brno
+organizationName            = Organization Name (eg, company)
+organizationName_default    = Srigi
+commonName                  = Common Name (e.g. server FQDN or YOUR name)
+commonName_default          = nette-webauthn.local
+emailAddress                = Email Address
+emailAddress_default        = hello@nette-webauthn.local

@@ -1,2 +1,11 @@
-*
-!.gitignore
+ca.conf
+ca.crt
+ca.der
+ca.key
+ca.seq
+dhparam
+server.crt
+server.crt.conf
+server.csr
+server.csr.conf
+server.key

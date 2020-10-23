@@ -70,6 +70,8 @@ class WebauthnPresenter extends BasePresenter
 
 		$this->getSession(self::SESSION_SECTION_ATTESTATION)->publicKeyUserEntity = $publicKeyUserEntity;
 		$this->getSession(self::SESSION_SECTION_ATTESTATION)->publicKeyCredentialCreationOptions = $publicKeyCredentialCreationOptions;
+
+		$this->template->setFile(__DIR__ . '/../templates/Webauthn/attestation.latte');
 		$this->template->credentialCreationOptions = Json::encode(
 			$publicKeyCredentialCreationOptions,
 			JSON_PRETTY_PRINT + JSON_UNESCAPED_SLASHES

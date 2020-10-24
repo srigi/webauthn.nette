@@ -51,7 +51,7 @@ First let's create all needed crypto files for our *Certification authority*:
 
   ```bash
   openssl genrsa \
-    -out .docker/ssl/ca.key 2048
+      -out .docker/ssl/ca.key 2048
   ```
 
 - copy `.docker/ssl/ca.conf [example]` into `.docker/ssl/ca.conf`, maybe adjust some values
@@ -60,17 +60,17 @@ First let's create all needed crypto files for our *Certification authority*:
 
   ```bash
   openssl req -x509 -new -days 3650 -nodes -sha256 \
-    -config .docker/ssl/ca.conf \
-    -key .docker/ssl/ca.key \
-    -out .docker/ssl/ca.crt
+      -config .docker/ssl/ca.conf \
+      -key .docker/ssl/ca.key \
+      -out .docker/ssl/ca.crt
   ```
 
 - convert a certificate to DER format (only for Windows):
 
   ```bash
   openssl x509 -outform DER \
-    -in .docker/ssl/ca.crt \
-    -out .docker/ssl/ca.der
+      -in .docker/ssl/ca.crt \
+      -out .docker/ssl/ca.der
   ```
 
 Now we can use this CA to sing & create a server SSL certificate(s). However, you will get the infamous security warning about an untrusted server. We must import CA's certificate into operating system and mark it as trusted.
@@ -85,14 +85,14 @@ Now let's create SSL certificate & key for *delelopment server*:
 
   ```bash
   openssl dhparam \
-    -out .docker/ssl/dhparam 2048
+      -out .docker/ssl/dhparam 2048
   ```
 
 - generate server's secret key:
 
   ```bash
   openssl genrsa \
-    -out .docker/ssl/server.key 2048
+      -out .docker/ssl/server.key 2048
   ```
 
 - copy `.docker/ssl/server.csr.conf [example]` into `.docker/ssl/server.csr.conf`, maybe adjust some values
@@ -101,9 +101,9 @@ Now let's create SSL certificate & key for *delelopment server*:
 
   ```bash
   openssl req -new \
-    -config .docker/ssl/server.csr.conf \
-    -key .docker/ssl/server.key \
-    -out .docker/ssl/server.csr
+      -config .docker/ssl/server.csr.conf \
+      -key .docker/ssl/server.key \
+      -out .docker/ssl/server.csr
   ```
 
 - copy `.docker/ssl/server.crt.conf [example]` into `.docker/ssl/server.crt.conf`, maybe adjust some values
@@ -112,13 +112,13 @@ Now let's create SSL certificate & key for *delelopment server*:
 
   ```bash
   openssl x509 -req -days 300 -sha256 \
-    -CA .docker/ssl/ca.crt \
-    -CAkey .docker/ssl/ca.key \
-    -CAcreateserial \
-    -CAserial .docker/ssl/ca.seq \
-    -extfile .docker/ssl/server.crt.conf \
-    -in .docker/ssl/server.csr \
-    -out .docker/ssl/server.crt
+      -CA .docker/ssl/ca.crt \
+      -CAkey .docker/ssl/ca.key \
+      -CAcreateserial \
+      -CAserial .docker/ssl/ca.seq \
+      -extfile .docker/ssl/server.crt.conf \
+      -in .docker/ssl/server.csr \
+      -out .docker/ssl/server.crt
   ```
 
 Now you finished creating a self-signed SSL certificate for your development server. It is time to...

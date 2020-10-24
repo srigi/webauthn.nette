@@ -36,7 +36,8 @@ COPY ./.docker/php.ini /usr/local/etc/php/
 WORKDIR /app
 RUN mkdir -p \
 		logs \
-		temp/cache/phpstan \
+		temp/cache \
+		temp/sessions \
 	&& chown -R www-data:www-data \
 		/app \
 		/var/www

@@ -4,5 +4,5 @@ keyUsage               = critical, nonRepudiation, digitalSignature, keyEncipher
 subjectAltName         = @alt_names
 
 [alt_names]
-DNS.1 =   nette-webauthn.local
-DNS.2 = *.nette-webauthn.local
+DNS.1 =   nette-webauthn.test
+DNS.2 = *.nette-webauthn.test

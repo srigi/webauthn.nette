@@ -1,2 +1,2 @@
 parameters:
-	rpId: nette-webauthn.local
+	rpId: nette-webauthn.test

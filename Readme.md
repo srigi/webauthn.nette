@@ -32,7 +32,7 @@ Setup them to origin you wish to use for access the web-application on your loca
 - setup localhost record for hostname equal to `parameters.rpID` in your `/etc/hosts` or local DNS:
 
   ```
-  127.0.0.1  nette-webauthn.local
+  127.0.0.1  nette-webauthn.test
   ```
 
 - create sqlite3 database and fill in tables & data:
@@ -139,7 +139,7 @@ Development
   docker-compose up
   ```
 
-Visit `https://nette-webauthn.local:8000` (preconfigured origin) in your browser to see the welcome page.
+Visit `https://nette-webauthn.test:8000` (preconfigured origin) in your browser to see the welcome page.
 
 
 Usage: Web authentication

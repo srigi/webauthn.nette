@@ -72,10 +72,7 @@ class WebauthnPresenter extends BasePresenter
 		$this->getSession(self::SESSION_SECTION_ATTESTATION)->publicKeyCredentialCreationOptions = $publicKeyCredentialCreationOptions;
 
 		$this->template->setFile(__DIR__ . '/../templates/Webauthn/attestation.latte');
-		$this->template->credentialCreationOptions = Json::encode(
-			$publicKeyCredentialCreationOptions,
-			JSON_PRETTY_PRINT + JSON_UNESCAPED_SLASHES
-		);
+		$this->template->credentialCreationOptions = Json::encode($publicKeyCredentialCreationOptions, Json::PRETTY);
 	}
 
 	public function actionVerifyAttestation(): void
@@ -136,10 +133,7 @@ class WebauthnPresenter extends BasePresenter
 		$credentialRequestOptions = $this->credentialRequestOptionsFactory->create('default', []);
 
 		$this->getSession(self::SESSION_SECTION_ASSERTION)->credentialRequestOptions = $credentialRequestOptions;
-		$this->template->credentialRequestOptions = Json::encode(
-			$credentialRequestOptions,
-			JSON_PRETTY_PRINT + JSON_UNESCAPED_SLASHES
-		);
+		$this->template->credentialRequestOptions = Json::encode($credentialRequestOptions, Json::PRETTY);
 		$this->template->userId = $params['id'];
 	}
 

@@ -111,7 +111,7 @@ Now let's create SSL certificate & key for *delelopment server*:
 - generate server cert:
 
   ```bash
-  openssl x509 -req -days 300 -sha256 \
+  openssl x509 -req -days 825 -sha256 \
       -CA .ssl/ca.crt \
       -CAkey .ssl/ca.key \
       -CAcreateserial \

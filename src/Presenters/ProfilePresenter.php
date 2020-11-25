@@ -33,6 +33,4 @@ final class ProfilePresenter extends BasePresenter
 
 		$this->template->myHwCredentials = $myHwCredentials;
 	}
-
-
 }

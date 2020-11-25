@@ -35,7 +35,6 @@ COPY ./.docker/php.ini /usr/local/etc/php/
 # Prepare app workdir & tools, switch to unprivileged user
 WORKDIR /app
 RUN mkdir -p \
-		logs \
 		temp/cache \
 		temp/sessions \
 	&& chown -R www-data:www-data \

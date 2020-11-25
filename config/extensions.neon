@@ -1,0 +1,33 @@
+extensions:
+	monolog: Contributte\Monolog\DI\MonologExtension
+
+
+application:
+	errorPresenter: Error
+	mapping:
+		*: App\*Module\Presenters\*Presenter
+
+database:
+	dsn: 'sqlite:/app/.data/main.sqlite3'
+
+di:
+	export:
+		parameters: no
+		tags: no
+
+monolog:
+	channel:
+		default: # default channel is required
+			handlers:
+				-
+					type: Monolog\Handler\StreamHandler
+					arguments:
+						level: ::getenv(LOGGING_LEVEL)
+						stream: 'php://stdout'
+	hook:
+		toTracy: false
+
+session:
+	debugger: true
+	expiration: 14 days
+	savePath: "%tempDir%/sessions"

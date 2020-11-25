@@ -21,7 +21,9 @@ COPY ./.docker/webserver/frontcontroller.template.nginx ./frontcontroller.templa
 COPY ./.docker/webserver/maps.template.nginx ./maps.template.conf
 COPY ./.docker/webserver/$CONFIG ./nginx.template.conf
 COPY ./.docker/webserver/webserver-foreground.sh ./
-COPY .ssl/ ./ssl
+COPY .ssl/dhparam ./ssl/
+COPY .ssl/server.crt ./ssl/
+COPY .ssl/server.key ./ssl/
 
 COPY --from=STATIC_FILES /app/www/ ./www
 RUN chown -R nginx:nginx \

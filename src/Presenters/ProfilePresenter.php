@@ -6,6 +6,7 @@ use Nette\Application\BadRequestException;
 use Nette\Database;
 use Nette\Http\IResponse;
 use Nette\SmartObject;
+use Psr\Log\LoggerInterface;
 
 final class ProfilePresenter extends BasePresenter
 {
@@ -15,6 +16,9 @@ final class ProfilePresenter extends BasePresenter
 
 	/** @inject */
 	public Database\Context $database;
+
+	/** @inject */
+	public LoggerInterface $logger;
 
 	public function startup(): void
 	{
@@ -27,6 +31,7 @@ final class ProfilePresenter extends BasePresenter
 
 	public function renderDefault(): void
 	{
+		$this->logger->info('Fetching HW_CREDENTIALS for current user');
 		$myHwCredentials = $this->database->table(self::TABLE_HW_CREDENTIALS)
 			->where('user_id', $this->getUser()->getId())
 			->fetchAll();

@@ -1,4 +1,5 @@
 APP_DEBUG=1
+DATABASE_URL=sqlite:/app/.data/main.sqlite3
 HEALTHCHECK_TOKEN=secret
 HOST_APP_PORT=8000
 TIMEZONE=Europe/Prague

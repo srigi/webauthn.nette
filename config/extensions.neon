@@ -8,7 +8,7 @@ application:
 		*: App\*Module\Presenters\*Presenter
 
 database:
-	dsn: 'sqlite:/app/.data/main.sqlite3'
+	dsn: ::getenv(DATABASE_URL)
 
 di:
 	export:

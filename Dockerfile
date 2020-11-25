@@ -19,7 +19,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
 	&& echo "extension=apcu.so" > /usr/local/etc/php/conf.d/ext-apcu.ini \
 	&& sed -e 's/access.log/;access.log/' -i /usr/local/etc/php-fpm.d/docker.conf \
 	&& php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-		&& php -r "if (hash_file('SHA384', 'composer-setup.php') === '48e3236262b34d30969dca3c37281b3b4bbe3221bda826ac6a9a62d6444cdb0dcd0615698a5cbe587c3f0fe57a54d8f5') { echo 'Installer verified'; } else { echo 'Installer verification failed!'; } echo PHP_EOL;" \
+        && php -r "if (hash_file('sha384', 'composer-setup.php') === '756890a4488ce9024fc62c56153228907f1545c228516cbf63f885e036d37e9a59d27d63f46af1d4d07ee0f76181c7d3') { echo 'Installer verified'; } else { echo 'Installer corrupt'; } echo PHP_EOL;" \
 		&& php composer-setup.php --filename=composer --install-dir=/usr/local/bin \
 		&& php -r "unlink('composer-setup.php');"
 ARG IS_PROD_BUILD=true
@@ -39,11 +39,9 @@ RUN mkdir -p \
 		temp/cache \
 		temp/sessions \
 	&& chown -R www-data:www-data \
-		/app \
-		/var/www
+		/app
 
 USER www-data
-RUN composer global require hirak/prestissimo
 
 # Install app dependencies
 COPY ./composer.json ./composer.lock ./

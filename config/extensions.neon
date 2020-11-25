@@ -1,0 +1,17 @@
+application:
+	errorPresenter: Error
+	mapping:
+		*: App\*Module\Presenters\*Presenter
+
+database:
+	dsn: 'sqlite:/app/.data/main.sqlite3'
+
+di:
+	export:
+		parameters: no
+		tags: no
+
+session:
+	debugger: true
+	expiration: 14 days
+	savePath: "%tempDir%/sessions"

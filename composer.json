@@ -19,6 +19,7 @@
         "ext-gmp": "*",
         "ext-json": "*",
         "ext-sodium": "*",
+        "contributte/monolog": "^0.4.1",
         "latte/latte": "^2.5",
         "nette/application": "^3.0",
         "nette/bootstrap": "^3.0",

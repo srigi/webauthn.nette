@@ -6,16 +6,19 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
 		libgmp-dev \
 		libicu-dev \
 		libpq-dev \
+		unixodbc-dev \
 		unzip \
 	&& docker-php-ext-install \
 		gmp \
 		intl \
 		pdo_pgsql \
 		pgsql \
-	&& docker-php-ext-enable \
-		opcache \
 	&& pecl install \
 		apcu \
+		pdo_sqlsrv \
+	&& docker-php-ext-enable \
+		opcache \
+		pdo_sqlsrv \
 	&& echo "extension=apcu.so" > /usr/local/etc/php/conf.d/ext-apcu.ini \
 	&& sed -e 's/access.log/;access.log/' -i /usr/local/etc/php-fpm.d/docker.conf \
 	&& php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \

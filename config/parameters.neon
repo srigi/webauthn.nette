@@ -1,4 +1,5 @@
 parameters:
+	rpId: ::getenv(RP_ID)
 	siteName: Nette Webauthn
 
 	webauthn_creation_profiles:

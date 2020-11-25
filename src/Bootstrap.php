@@ -19,10 +19,6 @@ class Bootstrap
 		$configurator->setTempDirectory(__DIR__ . '/../temp');
 		$configurator->addConfig(__DIR__ . '/../config/common.neon');
 
-		if (file_exists($file = __DIR__ . '/../config/local.neon')) {
-			$configurator->addConfig($file);
-		}
-
 		return $configurator;
 	}
 }

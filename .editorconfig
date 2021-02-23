@@ -14,3 +14,6 @@ indent_style = tab
 
 [{*.neon,*.php}]
 indent_style = tab
+
+[{*.yaml,*.yml}]
+indent_size = 2

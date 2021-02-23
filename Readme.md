@@ -3,7 +3,7 @@ Nette Webauthn
 
 This is a minimal, yet complete example project demonstrating **[webauthn](https://developer.mozilla.org/en-US/docs/Web/API/Web_Authentication_API)** sign-in process in Nette framework.
 
-During sign-in phase, we check if user have any HW credential info (public key) stored in the database. If yes, sign-in will forward request to another Presenter which will initiate a second step of authentication (2FA), utilizing verification via HW authenticator (Yubikey or similar).
+During the sign-in phase, webapp checks if user have any HW credential info (public key) stored in the database. If yes, sign-in will forward request to another Presenter which will initiate a second step of authentication (2FA), utilizing verification via HW authenticator (Yubikey or similar).
 
 ![Sign-in screen with HW authenticator prompt](https://i.postimg.cc/65rRq1Sd/sign-in.png)
 

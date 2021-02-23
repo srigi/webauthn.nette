@@ -13,7 +13,7 @@ RUN apk add --update --no-cache \
 	&& chmod ug+w \
 		/var/cache/nginx \
 		/var/run/nginx
-COPY ./.docker/bin/wait-for-it /usr/local/bin/
+COPY ./.docker/bin/wait-for-it.2020.08 /usr/local/bin/wait-for-it
 
 WORKDIR /app
 ARG CONFIG=nginx.conf

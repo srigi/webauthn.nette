@@ -31,8 +31,6 @@ RUN if [ "$IS_PROD_BUILD" != true ]; then \
 		pecl install xdebug; \
 		docker-php-ext-enable xdebug; \
 	fi
-COPY ./.docker/bin/tini-0.19.0_amd64 /usr/local/bin/tini
-COPY ./.docker/bin/wait-for-it /usr/local/bin/
 COPY ./.docker/php.ini /usr/local/etc/php/
 
 # Prepare app workdir & tools, switch to unprivileged user

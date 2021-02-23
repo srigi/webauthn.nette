@@ -3,16 +3,21 @@ FROM php:8.0-fpm
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update \
 	&& DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+		gnupg \
 		libgmp-dev \
 		libicu-dev \
 		libpq-dev \
 		unixodbc-dev \
 		unzip \
+	&& curl -q https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+	&& curl -q https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+	&& apt-get update \
+	&& ACCEPT_EULA=Y apt-get install -y --no-install-recommends \
+		msodbcsql17 \
+		mssql-tools \
 	&& docker-php-ext-install \
 		gmp \
 		intl \
-		pdo_pgsql \
-		pgsql \
 	&& pecl install \
 		apcu \
 		pdo_sqlsrv \

@@ -10,7 +10,7 @@ During the sign-in phase, webapp checks if user have any HW credential info (pub
 Requirements
 ------------
 
-- local PHP 7.4 installation with `ext-json`, `ext-gmp`, `ext-sodium`, `pdo_sqlite`
+- local PHP 7.4 installation with `ext-json`, `ext-gmp`, `ext-sodium`, `pdo_sqlite` or `pdo_sqlsrv`
 - Docker & `docker-compose` (cli command)
 - `composer`
 - `openssl`

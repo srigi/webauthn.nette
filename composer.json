@@ -18,6 +18,7 @@
         "php": ">= 7.4",
         "ext-gmp": "*",
         "ext-json": "*",
+        "ext-pdo_sqlsrv": "*",
         "ext-sodium": "*",
         "contributte/monolog": "^0.5.0",
         "latte/latte": "^2.10",

@@ -10,11 +10,10 @@ During the sign-in phase, webapp checks if user have any HW credential info (pub
 Requirements
 ------------
 
-- local PHP 7.4 installation with `ext-json`, `ext-gmp`, `ext-sodium`, `pdo_sqlite` or `pdo_sqlsrv`
+- local PHP 7.4 installation with `ext-json`, `ext-gmp`, `ext-sodium` and `pdo_sqlsrv`
 - Docker & `docker-compose` (cli command)
 - `composer`
 - `openssl`
-- `sqlite3`
 - HW authenticator to play with 🙂
 
 
@@ -38,8 +37,8 @@ Setup them to origin you wish to use for access the web-application on your loca
 - create sqlite3 database and fill in tables & data:
 
   ```bash
-  sqlite3 .data/main.sqlite3 < .data/schema.sql
-  sqlite3 .data/main.sqlite3 < .data/fixtures.sql
+  sqlite3 .data/main.sqlite3 < migrations/001_schema.sqlite3.sql
+  sqlite3 .data/main.sqlite3 < migrations/002_fixtures.sqlite3.sql
   ```
 
 ### SSL

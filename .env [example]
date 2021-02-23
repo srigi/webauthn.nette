@@ -1,7 +1,5 @@
-APP_DEBUG=1
-DATABASE_URL=sqlite:/app/.data/main.sqlite3
-HEALTHCHECK_TOKEN=secret
 HOST_APP_PORT=8000
+HOST_DATABASE_PORT=1433
 TIMEZONE=Europe/Prague
 PHP_IDE_CONFIG=serverName=nette-webauthn.test
 RP_ID=nette-webauthn.test

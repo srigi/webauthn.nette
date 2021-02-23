@@ -9,6 +9,8 @@ application:
 
 database:
 	dsn: ::getenv(DATABASE_URL)
+	user: ::getenv(DATABASE_USER)
+	password: ::getenv(DATABASE_PASSWORD)
 
 di:
 	export:

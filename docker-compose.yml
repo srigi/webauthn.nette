@@ -9,6 +9,14 @@ services:
         IS_PROD_BUILD: 0
     env_file:
       - .env
+    environment:
+      APP_DEBUG: 1
+      APP_ENV: local
+      DATABASE_URL: sqlsrv:Server=database;Database=webauthn
+      DATABASE_USER: sa
+      DATABASE_PASSWORD: S3cret_123
+    depends_on:
+      - database
     volumes:
       - ./.data:/app/.data
       - ./.docker/php-dev.ini:/usr/local/etc/php/php.ini:ro
@@ -31,5 +39,23 @@ services:
     environment:
       BACKEND_SERVICE: app:9000
       FCGI_READ_TIMEOUT: 3600s
+      HEALTHCHECK_TOKEN: secret
     ports:
       - 127.0.0.1:${HOST_APP_PORT}:8000
+
+  database:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    env_file:
+      - .env
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: S3cret_123
+      MSSQL_PID: Express # MSSQL Express edition (free)
+    ports:
+      - 127.0.0.1:${HOST_DATABASE_PORT}:1433
+    volumes:
+      - database:/var/opt/mssql
+    restart: on-failure
+
+volumes:
+  database:

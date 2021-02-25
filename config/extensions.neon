@@ -17,6 +17,9 @@ di:
 		parameters: no
 		tags: no
 
+http:
+	proxy: 172.16.0.0/12
+
 monolog:
 	channel:
 		default: # default channel is required

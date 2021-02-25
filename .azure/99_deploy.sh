@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 __DIR__="$(cd "$(dirname "$BASH_SOURCE")" >/dev/null 2>&1 && pwd)"
-source ${__DIR__}/lib.sh
+source ${__DIR__}/_common.sh
 source ${__DIR__}/../.env
 source ${__DIR__}/.env
 
@@ -9,20 +9,20 @@ GIT_DEFAULT_BRANCH='master'
 GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 GIT_REV=$(git rev-parse HEAD)
 
-
 function check_git_branch {
 	if [[ $1 != "$GIT_DEFAULT_BRANCH" ]]; then
 		printf "> ${COLOR_RED}you are not on default branch!${NC} Do you want to deploy current branch ${COLOR_BLUE}${GIT_BRANCH}${NC}? [y/N]: ";
 		read -r INP
 		if [[ ${INP} != 'y' && $INP != 'Y' ]]; then
-			exit 1
+			exit 0
 		fi
 	fi
 }
 
-function create_webapp {
+function create_app_service {
 	printf "Checking existence of ${COLOR_YELLOW}webapp${NC} ${COLOR_BLUE}$3${NC}... "
-	if ! az webapp show --resource-group "$1" --name "$3" --output none 2>/dev/null; then
+	az webapp show --resource-group "$1" --name "$3" --output none 2>/dev/null
+	if [[ $? != 0 ]]; then
 		echo -e "${COLOR_RED}Missing!${NC}"
 		echo -e "Creating ${COLOR_YELLOW}webapp${NC} ${COLOR_BLUE}$3${NC} under app-service plan ${COLOR_BLUE}$2${NC}:"
 			printf "  - setting-up ${COLOR_GREEN}deployment user${NC} ${COLOR_BLUE}${DEPLOYMENT_USER}${NC}... "
@@ -32,7 +32,7 @@ function create_webapp {
 				--output none
 			echo "done"
 
-			printf "  - creating ${COLOR_GREEN}webapp${NC} ${COLOR_BLUE}$3${NC}... "
+			printf "  - creating ${COLOR_GREEN}app service${NC} ${COLOR_BLUE}$3${NC}... "
 			git_repo=$(az webapp create \
 				--resource-group "$1" \
 				--plan "$2" \
@@ -70,11 +70,14 @@ function check_update_env {
 			--resource-group "$1" \
 			--name "$2" \
 			--settings \
-				DATABASE_URL="${DATABASE_URL}" \
-				TIMEZONE="${TIMEZONE}" \
+				DATABASE_URL=${DATABASE_URL} \
+				DATABASE_USER=${DATABASE_USER} \
+				DATABASE_PASSWORD=${DATABASE_PASSWORD} \
+				TIMEZONE=${TIMEZONE} \
+				RP_ID=${RP_ID} \
 			--output none
-		echo -e "${COLOR_GREEN}done${NC}... waiting 10s"
-		sleep 10
+		echo -e "${COLOR_GREEN}done${NC}... waiting 15s"
+		sleep 15
 	fi
 }
 
@@ -91,8 +94,9 @@ function deploy_sources {
 	echo -e "${COLOR_GREEN}done${NC}"
 }
 
+
 check_git_branch "${GIT_BRANCH}"
-create_webapp "${RESOURCE_GROUP_APP}" "${SERVICE_PLAN_NAME}" "${APP_SERVICE_NAME}"
+create_app_service "${RESOURCE_GROUP_APP}" "${SERVICE_PLAN_NAME}" "${APP_SERVICE_NAME}"
 check_update_env "${RESOURCE_GROUP_APP}" "${APP_SERVICE_NAME}"
 deploy_sources "${RESOURCE_GROUP_APP}" "${APP_SERVICE_NAME}" "${GIT_BRANCH}" "${GIT_REV}"
 echo -e "All deployment tasks ${COLOR_GREEN}completed successfully!${NC}"

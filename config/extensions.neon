@@ -32,4 +32,4 @@ monolog:
 session:
 	debugger: true
 	expiration: 14 days
-	savePath: "%tempDir%/sessions"
+	savePath: ::getenv(SESSION_SAVE_PATH)
